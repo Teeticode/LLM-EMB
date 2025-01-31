@@ -31,7 +31,7 @@ export default {
           id: crypto.randomUUID(),
           object: "chat.completion",
           created: Math.floor(Date.now() / 1000),
-          model: "@cf/meta/llama-3.1-8b-instruct",
+          model: "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
           choices: [
             {
               index: 0,
