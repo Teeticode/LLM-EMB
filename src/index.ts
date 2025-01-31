@@ -18,11 +18,14 @@ export default {
         const body: any = await request.json();
         const isPromptStyle = body.prompt !== undefined;
 
-        let response: any = await env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
-          [isPromptStyle ? "prompt" : "messages"]: isPromptStyle
-            ? body.prompt
-            : body.messages,
-        });
+        let response: any = await env.AI.run(
+          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b" as any,
+          {
+            [isPromptStyle ? "prompt" : "messages"]: isPromptStyle
+              ? body.prompt
+              : body.messages,
+          }
+        );
 
         return Response.json({
           id: crypto.randomUUID(),
