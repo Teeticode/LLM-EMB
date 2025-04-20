@@ -19,7 +19,7 @@ export default {
         const isPromptStyle = body.prompt !== undefined;
 
         let response: any = await env.AI.run(
-          "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b" as any,
+          "@cf/meta/llama-3.1-8b-instruct" as any,
           {
             [isPromptStyle ? "prompt" : "messages"]: isPromptStyle
               ? body.prompt
@@ -31,7 +31,7 @@ export default {
           id: crypto.randomUUID(),
           object: "chat.completion",
           created: Math.floor(Date.now() / 1000),
-          model: "@cf/deepseek-ai/deepseek-r1-distill-qwen-32b",
+          model: "@cf/meta/llama-3.1-8b-instruct",
           choices: [
             {
               index: 0,
