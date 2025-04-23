@@ -73,7 +73,41 @@ export default {
         );
       }
     }
+    if (
+      request.method === "POST" &&
+      url.pathname === "/v1/audio/transcriptions"
+    ) {
+      try {
+        const audioData = await request.arrayBuffer();
 
+        // Convert ArrayBuffer to required format
+        const audioArray = [...new Uint8Array(audioData)];
+
+        // Run Whisper model
+        const transcription = await env.AI.run("@cf/openai/whisper", {
+          audio: audioArray,
+        });
+
+        // Format response in OpenAI-compatible structure
+        return Response.json({
+          id: crypto.randomUUID(),
+          object: "transcription",
+          created: Math.floor(Date.now() / 1000),
+          model: "@cf/openai/whisper",
+          text: transcription.text,
+        });
+      } catch (error: any) {
+        return new Response(
+          JSON.stringify({
+            error: {
+              message: error?.message,
+              type: "invalid_request_error",
+            },
+          }),
+          { status: 500, headers: { "Content-Type": "application/json" } }
+        );
+      }
+    }
     // Handle embeddings
     if (
       request.method === "POST" &&
